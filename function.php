@@ -13,7 +13,18 @@ function genID($lastid, $tableName, $columnName, $prefix)
     }
     return $generated_id;
 }
+function inssub($subj_id,$level,$user_id){
+    global $conn;
 
+    $sql="INSERT INTO `user_like_subject`(`user_like_subject_subj`, `user_like_subject_like_level`,`user_like_subject_user`) VALUES ('$subj_id','$level','$user_id')";
+    $res=mysqli_query($conn,$sql);
+    if($res){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 
 
 

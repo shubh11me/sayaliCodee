@@ -21,32 +21,40 @@ if (!isset($headers['Authorization'])  || empty($headers['Authorization'])) {
   echo json_encode(array("Status"=>false,"msg"=>"No Authorization"));
 
 }
-
-$jwt=$headers['Authorization'];
+try {
+  //code...
+  $jwt=$headers['Authorization'];
 $decoded = JWT::decode($jwt, new Key("tumbed", 'HS256'));
-
-
-
 $user_id=$decoded->data->useri_id;
+} catch (\Throwable $th) {
+  //throw $th;
+  http_response_code(406);
+  echo json_encode(array("Status"=>false,"msg"=>"Something went wrong"));
+  die();
+}
+
+
+
+
 
     $data = json_decode(file_get_contents("php://input"), true);
-  $subj_id=$data['subj_id'];
-  $level=$data['level'];
 
 
-  if (!empty($subj_id) && !empty($level)) {
-   
-    $sql="INSERT INTO `user_like_subject`(`user_like_subject_subj`, `user_like_subject_like_level`,`user_like_subject_user`) VALUES ('$subj_id','$level','$user_id')";
-    $res=mysqli_query($conn,$sql);
-    if ($res) {
-        $last_id=mysqli_insert_id($conn);
+
+  if (!empty($data) ) {
+    //echo json_encode($data);
+    //die();
+    foreach ($data as $key) {
+      //echo json_encode ($key);
+      # code...
+     $subj_id=$key["subj_id"];
+     $level=$key["level"];
+     inssub($subj_id,$level,$user_id);
+    }
+  
+    
         http_response_code(201);
         echo json_encode(array("Status"=>true,"msg"=>"Subject for student is registered"));
-
-    }else{
-        http_response_code(401);
-        echo json_encode(array("Status"=>false,"msg"=>"Something went wrong"));
-    }
 
   }else{
     http_response_code(404);
