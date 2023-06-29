@@ -26,14 +26,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if (!empty($email) && !empty($pass)) {
    
-    $sql="select * from teacher where teacher_email='$email'";
+    $sql="select * from usersssss where useri_email='$email'";
     $res=mysqli_query($conn,$sql);
     if ($res) {
       $r=mysqli_fetch_assoc($res);
 
-      $r['logged_type']='teacher';
+      $r['logged_type']='user';
 
-      if ($pass==$r['teacher_password']) {
+
+      if ($pass==$r['useri_password']) {
 
         $key = 'tumbed';
         $payload = [
