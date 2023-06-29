@@ -27,5 +27,11 @@ function inssub($subj_id,$level,$user_id){
 }
 
 
+function inssubQueryMaker($subj_id,$level,$user_id,$isLast){
+$ste="('$subj_id','$level','$user_id')".($isLast==true?'':',');
+return $ste;
+}
+
+
 
 ?>
